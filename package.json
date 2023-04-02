@@ -54,9 +54,11 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
+    "@editorjs/editorjs": "^2.26.5",
     "solid-js": "^1.6.0"
   },
   "devDependencies": {
+    "@editorjs/editorjs": "^2.26.5",
     "concurrently": "^7.6.0",
     "esbuild": "^0.17.4",
     "esbuild-plugin-solid": "^0.5.0",

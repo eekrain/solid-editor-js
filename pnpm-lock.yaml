@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@editorjs/editorjs': ^2.26.5
   concurrently: ^7.6.0
   esbuild: ^0.17.4
   esbuild-plugin-solid: ^0.5.0
@@ -15,6 +16,7 @@ specifiers:
   vitest: ^0.28.2
 
 devDependencies:
+  '@editorjs/editorjs': 2.26.5
   concurrently: 7.6.0
   esbuild: 0.17.4
   esbuild-plugin-solid: 0.5.0_sylluzuhz6iplkxzgji2qkknwu
@@ -344,6 +346,20 @@ packages:
       '@babel/helper-string-parser': 7.19.4
       '@babel/helper-validator-identifier': 7.19.1
       to-fast-properties: 2.0.0
+    dev: true
+
+  /@codexteam/icons/0.1.0:
+    resolution: {integrity: sha512-jW1fWnwtWzcP4FBGsaodbJY3s1ZaRU+IJy1pvJ7ygNQxkQinybJcwXoyt0a5mWwu/4w30A42EWhCrZn8lp4fdw==}
+    dev: true
+
+  /@editorjs/editorjs/2.26.5:
+    resolution: {integrity: sha512-imwXZi9NmzxKjNosa1xQf286liJYsTe2J2DWCiV5TwKhvYZ1INg5Y+FietcM2v65QmeLqP7wgBUhoI7wiCB+yQ==}
+    dependencies:
+      '@codexteam/icons': 0.1.0
+      codex-notifier: 1.1.2
+      codex-tooltip: 1.0.5
+      html-janitor: 2.0.4
+      nanoid: 3.3.4
     dev: true
 
   /@esbuild/android-arm/0.15.18:
@@ -1105,6 +1121,14 @@ packages:
       wrap-ansi: 7.0.0
     dev: true
 
+  /codex-notifier/1.1.2:
+    resolution: {integrity: sha512-DCp6xe/LGueJ1N5sXEwcBc3r3PyVkEEDNWCVigfvywAkeXcZMk9K41a31tkEFBW0Ptlwji6/JlAb49E3Yrxbtg==}
+    dev: true
+
+  /codex-tooltip/1.0.5:
+    resolution: {integrity: sha512-IuA8LeyLU5p1B+HyhOsqR6oxyFQ11k3i9e9aXw40CrHFTRO2Y1npNBVU3W1SvhKAbUU7R/YikUBdcYFP0RcJag==}
+    dev: true
+
   /color-convert/1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
     dependencies:
@@ -1763,6 +1787,10 @@ packages:
 
   /html-entities/2.3.3:
     resolution: {integrity: sha512-DV5Ln36z34NNTDgnz0EWGBLZENelNAtkiFA4kyNOG2tDI6Mz1uSWiq1wAKdyjnJwyDiDO7Fa2SO1CTxPXL8VxA==}
+    dev: true
+
+  /html-janitor/2.0.4:
+    resolution: {integrity: sha512-92J5h9jNZRk30PMHapjHEJfkrBWKCOy0bq3oW2pBungky6lzYSoboBGPMvxl1XRKB2q+kniQmsLsPbdpY7RM2g==}
     dev: true
 
   /http-proxy-agent/5.0.0:

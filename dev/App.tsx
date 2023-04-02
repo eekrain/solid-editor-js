@@ -1,30 +1,59 @@
-import type { Component } from 'solid-js'
-import logo from './logo.svg'
-import styles from './App.module.css'
-import { Hello } from '../src'
+import { Component, createSignal } from 'solid-js';
+import { createEditorJS, InitialValue } from '../src/solid-editor-js';
+
+const savedBefore: InitialValue = {
+  time: 1680316641030,
+  blocks: [
+    {
+      id: '9WD_MSvvVE',
+      type: 'paragraph',
+      data: {
+        text: 'Hai 1',
+      },
+    },
+    {
+      id: 'aeIr56ig6a',
+      type: 'paragraph',
+      data: {
+        text: 'Hai 2',
+      },
+    },
+    {
+      id: '6HcXp2Dg4I',
+      type: 'header',
+      data: {
+        text: 'Heading',
+        level: 3,
+      },
+    },
+  ],
+  version: '2.26.5',
+};
 
 const App: Component = () => {
-  return (
-    <div class={styles.App}>
-      <header class={styles.header}>
-        <img src={logo} class={styles.logo} alt="logo" />
-        <h1>
-          <Hello></Hello>
-        </h1>
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          class={styles.link}
-          href="https://github.com/solidjs/solid"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn Solid
-        </a>
-      </header>
-    </div>
-  )
-}
+  let el!: HTMLDivElement;
 
-export default App
+  const [initVal, setInitVal] = createSignal<InitialValue>();
+
+  setTimeout(() => {
+    setInitVal(savedBefore);
+  }, 3000);
+
+  const editor = createEditorJS(() => ({ element: el, initialValue: initVal() }));
+
+  const saveOutput = () => {
+    editor()
+      .save()
+      .then(output => console.log('🚀 ~ file: App.tsx:47 ~ editor ~ output:', output))
+      .catch(reason => console.log('🚀 ~ file: App.tsx:56 ~ saveOutput ~ reason:', reason));
+  };
+
+  return (
+    <div>
+      <button onClick={saveOutput}>Log!</button>
+      <div ref={el} />
+    </div>
+  );
+};
+
+export default App;
