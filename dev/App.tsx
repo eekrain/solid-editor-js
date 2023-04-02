@@ -18,14 +18,6 @@ const savedBefore: InitialValue = {
         text: 'Hai 2',
       },
     },
-    {
-      id: '6HcXp2Dg4I',
-      type: 'header',
-      data: {
-        text: 'Heading',
-        level: 3,
-      },
-    },
   ],
   version: '2.26.5',
 };

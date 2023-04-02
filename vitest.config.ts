@@ -1,10 +1,10 @@
-import { defineConfig } from 'vitest/config'
-import solidPlugin from 'vite-plugin-solid'
+import { defineConfig } from 'vitest/config';
+import solidPlugin from 'vite-plugin-solid';
 
 export default defineConfig(({ mode }) => {
   // to test in server environment, run with "--mode ssr" or "--mode test:ssr" flag
   // loads only server.test.ts file
-  const testSSR = mode === 'test:ssr' || mode === 'ssr'
+  // const testSSR = mode === 'test:ssr' || mode === 'ssr'
 
   return {
     plugins: [
@@ -12,31 +12,26 @@ export default defineConfig(({ mode }) => {
         // https://github.com/solidjs/solid-refresh/issues/29
         hot: false,
         // For testing SSR we need to do a SSR JSX transform
-        solid: { generate: testSSR ? 'ssr' : 'dom' },
+        solid: { generate: 'dom' },
       }),
     ],
     test: {
       watch: false,
-      isolate: !testSSR,
+      isolate: true,
       env: {
-        NODE_ENV: testSSR ? 'production' : 'development',
-        DEV: testSSR ? '' : '1',
-        SSR: testSSR ? '1' : '',
-        PROD: testSSR ? '1' : '',
+        NODE_ENV: 'development',
+        DEV: '1',
+        SSR: '',
+        PROD: '',
       },
-      environment: testSSR ? 'node' : 'jsdom',
+      environment: 'jsdom',
       transformMode: { web: [/\.[jt]sx$/] },
-      ...(testSSR
-        ? {
-            include: ['test/server.test.{ts,tsx}'],
-          }
-        : {
-            include: ['test/*.test.{ts,tsx}'],
-            exclude: ['test/server.test.{ts,tsx}'],
-          }),
+      include: ['test/*.test.{ts,tsx}'],
+      exclude: ['test/server.test.{ts,tsx}'],
+      setupFiles: ['test/setup.ts'],
     },
     resolve: {
-      conditions: testSSR ? ['node'] : ['browser', 'development'],
+      conditions: ['browser', 'development'],
     },
-  }
-})
+  };
+});

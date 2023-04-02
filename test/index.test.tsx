@@ -1,51 +1,81 @@
-import { createRoot, createSignal } from 'solid-js'
-import { isServer } from 'solid-js/web'
-import { describe, expect, it } from 'vitest'
-import { Hello, createHello } from '../src'
+import { createSignal } from 'solid-js';
+import { isServer } from 'solid-js/web';
+import { describe, expect, it, test } from 'vitest';
+import { render } from '@solidjs/testing-library';
+import { createEditorJS, InitialValue } from '../src';
 
 describe('environment', () => {
   it('runs on server', () => {
-    expect(typeof window).toBe('object')
-    expect(isServer).toBe(false)
-  })
-})
+    expect(typeof window).toBe('object');
+    expect(isServer).toBe(false);
+  });
+});
 
-describe('createHello', () => {
-  it('Returns a Hello World signal', () =>
-    createRoot(dispose => {
-      const [hello] = createHello()
-      expect(hello()).toBe('Hello World!')
-      dispose()
-    }))
+describe('solid-editor-js', () => {
+  test('Returns the editor.js instance via signals', async () => {
+    let el!: HTMLDivElement;
+    render(() => <div ref={el}></div>);
 
-  it('Changes the hello target', () =>
-    createRoot(dispose => {
-      const [hello, setHello] = createHello()
-      setHello('Solid')
-      expect(hello()).toBe('Hello Solid!')
-      dispose()
-    }))
-})
+    const editor = createEditorJS(() => ({ element: el }));
 
-describe('Hello', () => {
-  it('renders a hello component', () => {
-    createRoot(() => {
-      const container = (<Hello />) as HTMLDivElement
-      expect(container.outerHTML).toBe('<div>Hello World!</div>')
-    })
-  })
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
-  it('changes the hello target', () =>
-    createRoot(dispose => {
-      const [to, setTo] = createSignal('Solid')
-      const container = (<Hello to={to()} />) as HTMLDivElement
-      expect(container.outerHTML).toBe('<div>Hello Solid!</div>')
-      setTo('Tests')
+    expect(typeof editor).toBe('function');
+    expect(typeof editor().destroy).toBe('function');
+    expect(typeof editor().save).toBe('function');
+    expect(typeof editor().clear).toBe('function');
+    expect(typeof editor().off).toBe('function');
+    expect(typeof editor().on).toBe('function');
+    expect(typeof editor().render).toBe('function');
+  });
 
-      // rendering is async
-      queueMicrotask(() => {
-        expect(container.outerHTML).toBe('<div>Hello Tests!</div>')
-        dispose()
-      })
-    }))
-})
+  test('Re-create editor on initialValue change', async () => {
+    let el!: HTMLDivElement;
+    const { getByText, queryByText } = render(() => <div ref={el}></div>);
+
+    const [initVal, setInitVal] = createSignal<InitialValue>();
+    const editor = createEditorJS(() => ({ element: el, initialValue: initVal() }));
+
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    expect(queryByText('Hai 1')).toBeNull();
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    setInitVal(savedBefore);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    expect(getByText('Hai 1')).toBeDefined();
+  });
+
+  test('Value from initialValue when saved without changed should be the same', async () => {
+    let el!: HTMLDivElement;
+    render(() => <div ref={el}></div>);
+
+    const editor = createEditorJS(() => ({ element: el, initialValue: savedBefore }));
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    const res = await editor().save();
+    expect(res.blocks).toStrictEqual(savedBefore!.blocks);
+  });
+});
+
+const savedBefore: InitialValue = {
+  time: 1680316641030,
+  blocks: [
+    {
+      id: '9WD_MSvvVE',
+      type: 'paragraph',
+      data: {
+        text: 'Hai 1',
+      },
+    },
+    {
+      id: 'aeIr56ig6a',
+      type: 'paragraph',
+      data: {
+        text: 'Hai 2',
+      },
+    },
+  ],
+  version: '2.26.5',
+};
