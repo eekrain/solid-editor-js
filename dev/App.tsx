@@ -39,19 +39,7 @@ const App: Component = () => {
     setInitVal(savedBefore);
   }, 3000);
 
-  const editor = createEditorJS(() => ({
-    element: el,
-    initialValue: initVal(),
-    tools: {
-      paragraph: {
-        class: Paragraph,
-        inlineToolbar: true,
-        config: {
-          placeholder: 'Type the paragraph',
-        },
-      },
-    },
-  }));
+  const editor = createEditorJS(() => ({ element: el, initialValue: initVal() }));
 
   const saveOutput = () => {
     editor()
